@@ -1,24 +1,53 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { QueryClient } from '@tanstack/react-query'
+import { SplashScreen, Stack } from 'expo-router'
+import { useEffect, useState } from 'react'
+import { useColorScheme } from '../hooks/useColorScheme'
+import { AppProvider } from '../providers/AppProvider'
+import '@/global.css'
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
+void SplashScreen.preventAutoHideAsync()
 
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+function useInitializeApp() {
+  const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme()
+  const [isReady, setIsReady] = useState(false)
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  useEffect(() => {
+    const initializeTheme = async () => {
+      setColorScheme(colorScheme)
+    }
 
+    void Promise.allSettled([initializeTheme()]).then(() => {
+      setIsReady(true)
+      void SplashScreen.hideAsync()
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return {
+    isReady,
+    isDarkColorScheme,
+  }
+}
+
+function RootNavigator() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+    </>
+  )
+}
+
+export default function RootLayout() {
+  const queryClient = new QueryClient()
+  const { isDarkColorScheme } = useInitializeApp()
+  return (
+    <AppProvider
+      queryClient={queryClient}
+      isDarkColorScheme={isDarkColorScheme}
+    >
+      <RootNavigator></RootNavigator>
+    </AppProvider>
+  )
 }

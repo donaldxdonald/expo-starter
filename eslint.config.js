@@ -1,10 +1,7 @@
-// https://docs.expo.dev/guides/using-eslint/
-const { defineConfig } = require('eslint/config');
-const expoConfig = require('eslint-config-expo/flat');
+import antfu from '@antfu/eslint-config'
 
-module.exports = defineConfig([
-  expoConfig,
-  {
-    ignores: ['dist/*'],
-  },
-]);
+export default antfu({
+  react: true,
+  formatters: true,
+  isInEditor: false,
+})
