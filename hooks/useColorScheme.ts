@@ -1,4 +1,4 @@
-import { useUniwind, Uniwind } from 'uniwind'
+import { Uniwind, useUniwind } from 'uniwind'
 
 export function useColorScheme() {
   const { theme } = useUniwind()
@@ -11,5 +11,5 @@ export function useColorScheme() {
     toggleColorScheme: () => {
       Uniwind.setTheme(Uniwind.currentTheme === 'dark' ? 'light' : 'dark')
     },
-  }
+  } as const
 }

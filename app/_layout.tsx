@@ -20,8 +20,7 @@ function useInitializeApp() {
       setIsReady(true)
       void SplashScreen.hideAsync()
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [colorScheme, setColorScheme])
 
   return {
     isReady,
