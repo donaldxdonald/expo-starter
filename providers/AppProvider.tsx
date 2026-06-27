@@ -1,11 +1,7 @@
-import type { Theme } from '@react-navigation/native'
 import type { QueryClient } from '@tanstack/react-query'
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from '@react-navigation/native'
+import type { Theme } from 'expo-router/react-navigation'
 import { QueryClientProvider } from '@tanstack/react-query'
+import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router/react-navigation'
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
